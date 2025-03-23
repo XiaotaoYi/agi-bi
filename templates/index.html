@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome BI Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Awesome BI Agent</h1>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message system">
+                <div class="message-content">
+                    <p>您好！我是您的BI助手，请输入您的问题，我会帮您生成BI报表。</p>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <textarea id="user-input" placeholder="请输入您的问题..." rows="1"></textarea>
+            <button id="send-button">发送</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html> 

@@ -1,0 +1,117 @@
+
+
+# Awesome BI Agent
+
+Awesome BI Agent 是一个基于自然语言处理的数据库查询助手，它允许用户使用自然语言提问，系统自动将其转换为 SQL 查询，执行查询并以易于理解的方式呈现结果。
+
+## 功能特点
+
+- 自然语言转 SQL：将用户的自然语言问题转换为 SQL 查询
+- 智能查询执行：自动执行生成的 SQL 查询并获取结果
+- 结果美化：将查询结果转换为易于理解的自然语言描述
+- 交互式界面：提供类似 DeepSeek 的聊天界面，方便用户提问和查看结果
+
+## 技术栈
+
+- **前端**：HTML, CSS, JavaScript
+- **后端**：Python, Flask
+- **数据库**：SQLite
+- **AI 模型**：DeepSeek (通过 Ollama API 调用)
+
+## 项目结构
+
+```
+project/
+├── app.py                  # Flask应用主文件
+├── QueryProcessor.py       # 查询处理器核心逻辑
+├── DataGenerator.py        # 示例数据生成脚本
+├── order.db                # SQLite数据库文件
+├── schema.txt              # 数据库结构描述文件
+├── static/
+│   ├── css/
+│   │   └── style.css       # CSS样式文件
+│   └── js/
+│       └── script.js       # JavaScript交互逻辑
+└── templates/
+    └── index.html          # HTML模板
+```
+
+## 安装与运行
+
+### 前提条件
+
+- Python 3.6+
+- Ollama 服务运行中，并已加载 DeepSeek 模型
+
+### 安装步骤
+
+1. 克隆仓库到本地
+
+2. 安装所需的 Python 包：
+   ```bash
+   pip install flask flask-cors requests
+   ```
+
+3. 生成示例数据（如果需要）：
+   ```bash
+   python DataGenerator.py
+   ```
+
+4. 启动 Flask 应用：
+   ```bash
+   python app.py
+   ```
+
+5. 在浏览器中访问 `http://localhost:8082` 即可使用系统
+
+## 使用说明
+
+1. 在浏览器中打开应用
+2. 在底部输入框中输入您的问题，例如：
+   - "请帮我查询8月份消费金额最高的前三位用户"
+   - "统计每个用户的总消费金额"
+   - "查询男性用户的平均年龄"
+3. 点击"发送"按钮或按 Enter 键提交问题
+4. 系统会自动处理您的问题并返回结果
+
+## 数据库结构
+
+系统使用的示例数据库包含两个表：
+
+### user 表
+- user_id：用户ID（主键）
+- gender：性别（male/female）
+- age：年龄
+- customer_level：客户等级（1-5）
+
+### order 表
+- order_id：订单ID（主键）
+- customer_user_id：客户ID（外键，关联user表的user_id）
+- item_name：商品名称
+- item_number：商品数量
+- price：单价
+- date：订单日期
+
+## 配置说明
+
+- 默认端口：8082（可在 app.py 中修改）
+- Ollama API 端点：默认为 http://localhost:11434/api/generate（可在 QueryProcessor.py 中修改）
+- 数据库文件：order.db（可在 app.py 中修改）
+
+## 开发者说明
+
+### 扩展功能
+
+1. 修改 QueryProcessor.py 中的 _call_deepseek 方法可以更换不同的 LLM 模型
+2. 调整 app.py 中的路由可以添加新的 API 端点
+3. 修改前端文件可以自定义界面样式和交互逻辑
+
+### 注意事项
+
+- 确保 Ollama 服务正常运行，并已加载 DeepSeek 模型
+- 数据库连接使用了 check_same_thread=False 参数，适合开发环境，生产环境请考虑使用连接池
+- 系统默认使用中文交互，可根据需要修改提示和界面语言
+
+## 许可证
+
+MIT

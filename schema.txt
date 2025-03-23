@@ -1,0 +1,22 @@
+[
+    {
+        "table_name": "user",
+        "columns": [
+            { "column_name": "user_id", "desc": "identity of user", "value type": "Number" },
+            { "column_name": "gender", "desc": "gender of user", "value type": ["male", "female"] },
+            { "column_name": "age", "desc": "age of user", "value type": "Number" },
+            { "column_name": "customer_level", "desc": "level of customer account", "value type": [1,2,3,4,5] },
+        ]
+    },
+    {
+        "table_name": "order",
+        "columns": [
+            { "column_name": "order_id", "desc": "identity of order", "value type": "Number" },
+            { "column_name": "customer_user_id", "desc": "identity of customer, same value as user_id", "value type": "Number" },
+            { "column_name": "item_name", "desc": "item name of this order", "value type": "String" },
+            { "column_name": "item_number", "desc": "how many items to buy in this order", "value type": "Number" },
+            { "column_name": "price", "desc": "how much of each item", "value type": "Number" },
+            { "column_name": "date", "desc": "what date did this order happend", "value type": "Date" },
+        ]
+    }
+]
