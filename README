@@ -3,7 +3,7 @@
 Awesome BI Agent 是一个基于自然语言处理的数据库查询助手，它允许用户使用自然语言提问，系统自动将其转换为 SQL 查询，执行查询并以易于理解的方式呈现结果。
 
 ## 演示图片
-![Awesome BI Agent demo](https://github.com/XiaotaoYi/agi-bi/blob/main/demo.jpg)
+![Awesome BI Agent demo](./demo.jpg)
 
 
 ## 功能特点
