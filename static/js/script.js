@@ -59,8 +59,20 @@ function createChart(data) {
     const values = data.map(row => row[Object.keys(row)[1]]);
     
     // Set canvas size to match container
+    // Set a fixed height for the canvas container
+    container.style.height = '300px';
+    container.style.width = '100%';
+    
+    // Make canvas fill its container
     canvas.style.width = '100%';
-    canvas.style.height = '300px';
+    canvas.style.height = '100%';
+    
+    // Fix for high DPI displays
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
     
     const newChart = new Chart(ctx, {
         type: 'line',
@@ -91,7 +103,7 @@ function createChart(data) {
                 legend: {
                     labels: {
                         font: {
-                            size: 14
+                            size: 10
                         },
                         color: '#e6e6e6'
                     }
@@ -101,7 +113,7 @@ function createChart(data) {
                 x: {
                     ticks: {
                         font: {
-                            size: 12
+                            size: 10
                         },
                         color: '#a9a9a9',
                         maxRotation: 45,
@@ -116,7 +128,7 @@ function createChart(data) {
                     beginAtZero: true,
                     ticks: {
                         font: {
-                            size: 12
+                            size: 10
                         },
                         color: '#a9a9a9'
                     },
@@ -136,7 +148,7 @@ function createViewSwitcher(data) {
     switcher.className = 'view-switcher';
     
     const tableBtn = document.createElement('button');
-    tableBtn.textContent = '表格视图';
+    tableBtn.textContent = 'table';
     tableBtn.className = 'active';
     tableBtn.onclick = () => {
         const content = switcher.nextElementSibling;
@@ -149,7 +161,7 @@ function createViewSwitcher(data) {
     };
     
     const chartBtn = document.createElement('button');
-    chartBtn.textContent = '趋势图';
+    chartBtn.textContent = 'trend';
     chartBtn.onclick = () => {
         const content = switcher.nextElementSibling;
         // Clear existing content
@@ -211,7 +223,7 @@ async function sendMessage() {
     loadingDiv.className = 'message assistant';
     loadingDiv.innerHTML = `
         <div class="message-content loading">
-            <span>思考中</span>
+            <span>thinking</span>
             <div class="loading-dots">
                 <span></span>
                 <span></span>
