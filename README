@@ -80,13 +80,13 @@ project/
 
 系统使用的示例数据库包含两个表：
 
-### user 表
+### user_tbl 表
 - user_id：用户ID（主键）
 - gender：性别（male/female）
 - age：年龄
 - customer_level：客户等级（1-5）
 
-### order 表
+### order_tbl 表
 - order_id：订单ID（主键）
 - customer_user_id：客户ID（外键，关联user表的user_id）
 - item_name：商品名称

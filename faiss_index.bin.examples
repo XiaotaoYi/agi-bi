@@ -1,0 +1,10 @@
+2025年2月份的销售额是多少：SELECT SUM(item_number * price) AS total_sales FROM order_tbl WHERE strftime('%Y', date) = '2025' AND strftime('%m', date) = '02'
+查询女性用户的平均年龄：SELECT AVG(age) AS avg_age FROM user_tbl WHERE gender = 'female'
+查询每个客户等级的用户数量：SELECT customer_level, COUNT(*) AS user_count FROM user_tbl GROUP BY customer_level ORDER BY customer_level
+查询2025年第一季度每个月的销售额：SELECT strftime('%m', date) AS month, SUM(item_number * price) AS monthly_sales FROM order_tbl WHERE strftime('%Y', date) = '2025' AND strftime('%m', date) BETWEEN '01' AND '03' GROUP BY strftime('%m', date)
+查询消费金额最高的前5名用户：SELECT u.user_id, u.gender, u.age, SUM(o.item_number * o.price) AS total_spent FROM user_tbl u JOIN order_tbl o ON u.user_id = o.customer_user_id GROUP BY u.user_id ORDER BY total_spent DESC LIMIT 5
+查询每个商品的总销量：SELECT item_name, SUM(item_number) AS total_quantity, SUM(item_number * price) AS total_revenue FROM order_tbl GROUP BY item_name ORDER BY total_quantity DESC
+查询不同性别用户的平均消费金额：SELECT u.gender, AVG(o.item_number * o.price) AS avg_spent FROM user_tbl u JOIN order_tbl o ON u.user_id = o.customer_user_id GROUP BY u.gender
+查询2025年2月份购买次数最多的用户：SELECT u.user_id, u.gender, u.age, COUNT(*) AS order_count FROM user_tbl u JOIN order_tbl o ON u.user_id = o.customer_user_id WHERE strftime('%Y', date) = '2025' AND strftime('%m', date) = '02' GROUP BY u.user_id ORDER BY order_count DESC LIMIT 1
+查询不同客户等级的平均消费金额：SELECT u.customer_level, AVG(o.item_number * o.price) AS avg_spent FROM user_tbl u JOIN order_tbl o ON u.user_id = o.customer_user_id GROUP BY u.customer_level ORDER BY u.customer_level
+查询2025年2月份最畅销的商品：SELECT item_name, SUM(item_number) AS total_quantity FROM order_tbl WHERE strftime('%Y', date) = '2025' AND strftime('%m', date) = '02' GROUP BY item_name ORDER BY total_quantity DESC LIMIT 1

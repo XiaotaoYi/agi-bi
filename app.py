@@ -31,27 +31,27 @@ def process_query():
         import sys
         
         # 捕获标准输出
-        old_stdout = sys.stdout
-        new_stdout = io.StringIO()
-        sys.stdout = new_stdout
+        #old_stdout = sys.stdout
+        #new_stdout = io.StringIO()
+        #sys.stdout = new_stdout
         
         # 处理查询
-        processor.process(query)
+        results = processor.process(query)
         
         # 恢复标准输出并获取捕获的输出
-        sys.stdout = old_stdout
-        output = new_stdout.getvalue()
+        #sys.stdout = old_stdout
+        #output = new_stdout.getvalue()
         # 使用正则表达式替换 <think> 标签及其内容，以及换行符
-        output = re.sub(r'<think>.*?</think>', '', output, flags=re.DOTALL)  # 替换 <think> 标签及其内容
+        #output = re.sub(r'<think>.*?</think>', '', output, flags=re.DOTALL)  # 替换 <think> 标签及其内容
 
-        print(output)
+        #print(output)
         
         # 解析输出以获取SQL和结果
-        sql_match = output.split("生成的SQL语句：\n")[1].split("\n原始执行结果：")[0] if "生成的SQL语句：" in output else ""
-        result = output.split("\n美化后的解释：\n")[1] if "\n美化后的解释：\n" in output else output
+        #sql_match = output.split("生成的SQL语句：\n")[1].split("\n原始执行结果：")[0] if "生成的SQL语句：" in output else ""
+        #result = output.split("\n美化后的解释：\n")[1] if "\n美化后的解释：\n" in output else output
         
         return jsonify({
-            'result': result.strip()
+            'result': results
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500

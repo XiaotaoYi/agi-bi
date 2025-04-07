@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awesome BI Agent</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>BI Assistant</title>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <h1>Awesome BI Agent</h1>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-            <div class="message system">
-                <div class="message-content">
-                    <p>您好！我是您的BI助手，请输入您的问题，我会帮您生成BI报表。</p>
-                </div>
+            <div class="logo-container">
+                <img src="/static/img/logo.webp" alt="Logo" class="logo">
+                <h1>Hi, I'm Genious.</h1>
             </div>
+            <p class="subtitle">How can I help you today?</p>
         </div>
-        <div class="chat-input">
-            <textarea id="user-input" placeholder="请输入您的问题..." rows="1"></textarea>
-            <button id="send-button">发送</button>
+        
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will be added here -->
+        </div>
+        
+        <div class="chat-input" style="display: flex;">
+            <textarea id="user-input" placeholder="search sales amount at the year 2024 by month"></textarea>
+            <button id="send-button" class="icon-btn" style="margin-left: auto;">
+                <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7 16c-.595 0-1.077-.462-1.077-1.032V1.032C5.923.462 6.405 0 7 0s1.077.462 1.077 1.032v13.936C8.077 15.538 7.595 16 7 16z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M.315 7.44a1.002 1.002 0 0 1 0-1.46L6.238.302a1.11 1.11 0 0 1 1.523 0c.421.403.421 1.057 0 1.46L1.838 7.44a1.11 1.11 0 0 1-1.523 0z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M13.685 7.44a1.11 1.11 0 0 1-1.523 0L6.238 1.762a1.002 1.002 0 0 1 0-1.46 1.11 1.11 0 0 1 1.523 0l5.924 5.678c.42.403.42 1.056 0 1.46z" fill="currentColor"></path></svg>
+            </button>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/script.js"></script>
 </body>
 </html> 

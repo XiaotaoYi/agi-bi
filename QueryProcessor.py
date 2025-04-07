@@ -3,6 +3,8 @@ import requests
 import json
 from typing import Optional
 import re
+import os
+from sql_util import SQLVectorDB
 
 class SQLProcessor:
     def __init__(self, db_path: str, ollama_endpoint: str = "http://localhost:11434/api/generate"):
@@ -15,6 +17,7 @@ class SQLProcessor:
         self.ollama_endpoint = ollama_endpoint
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self.conn.row_factory = sqlite3.Row  # 启用行工厂获取字典格式结果
+        self.sql_vector_db = SQLVectorDB() 
 
     def _call_deepseek(self, prompt: str, format_instruction: Optional[str] = None) -> str:
         """
@@ -24,6 +27,7 @@ class SQLProcessor:
         :return: 模型生成的响应
         """
         full_prompt = f"{prompt}\n{format_instruction}" if format_instruction else prompt
+        print('full prompt:' + full_prompt)
         
         payload = {
             "model": "deepseek-r1:14B",
@@ -85,17 +89,23 @@ class SQLProcessor:
             format_instruction=format_instruction
         )
 
+    def get_query_examples(self, query: str):
+        return self.sql_vector_db.search(query)
+
     def process(self, query: str):
         """
         处理用户查询的完整流程
         :param query: 自然语言查询
         """
+        results = {}
         try:
             # 第一步：生成SQL语句
             sql_prompt = f"""
             请根据以下查询生成SQL语句（仅返回SQL代码，不要输出think内容）：
             数据库Schema：{self._get_schema_info()}
             用户查询：{query}
+            以下为用户查询和生成的SQL样例：
+            {self.get_query_examples(query)}
             """
             generated_sql = self._call_deepseek(sql_prompt).strip().replace("```sql", "").replace("```", "")
 
@@ -106,16 +116,27 @@ class SQLProcessor:
 
             print(cleaned_text)
 
-            # 第二步：执行SQL
-            results = self._execute_sql(cleaned_text)
+            # 第二步：验证SQL语法并执行
+            from sqlite_verify import parse_sql
+            
+            # 验证SQL语法是否正确
+            if parse_sql(cleaned_text):
+                # SQL语法正确，执行SQL
+                results = self._execute_sql(cleaned_text)
+            else:
+                # SQL语法不正确，返回错误信息
+                print("SQL语法验证失败")
+                results = [{"error": "当前系统正在繁忙，请稍后再试"}]
 
             # 第三步：美化输出
-            formatted_output = self._format_results(results, query)
-            print("\n美化后的解释：")
-            print(formatted_output)
+            #formatted_output = self._format_results(results, query)
+            #print("\n美化后的解释：")
+            #print(formatted_output)
 
         except Exception as e:
             print(f"处理过程中发生错误：{str(e)}")
+        
+        return results
 
     def _get_schema_info(self) -> str:
         """

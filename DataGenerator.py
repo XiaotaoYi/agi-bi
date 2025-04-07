@@ -8,7 +8,7 @@ c = conn.cursor()
 
 # 创建带注释的user表
 c.execute('''
-CREATE TABLE user (
+CREATE TABLE if not exists user_tbl  (
     user_id INTEGER PRIMARY KEY,  -- identity of user
     gender TEXT CHECK(gender IN ('male', 'female')),  -- gender of user
     age INTEGER,  -- age of user
@@ -17,7 +17,7 @@ CREATE TABLE user (
 
 # 创建带注释的order表（处理保留字）
 c.execute('''
-CREATE TABLE "order" (
+CREATE TABLE if not exists "order_tbl" (
     order_id INTEGER PRIMARY KEY,  -- identity of order
     customer_user_id INTEGER REFERENCES user(user_id),  -- identity of customer
     item_name TEXT,  -- item name of this order
@@ -27,32 +27,37 @@ CREATE TABLE "order" (
 )''')
 
 # 生成10条user数据
-users = []
+'''users = []
 for uid in range(1, 11):
     users.append((
         uid,
         random.choice(['male', 'female']),
         random.randint(18, 65),
         random.choice([1,2,3,4,5])
-    ))
+    ))'''
 
-# 生成10条order数据
+# 生成120条order数据
 orders = []
 item_pool = ['Laptop', 'Phone', 'Book', 'Shoes', 'Headphones']
-start_date = datetime(2023, 8, 1)
-for oid in range(1, 11):
-    orders.append((
-        oid,
-        random.randint(1, 10),  # 关联有效user_id
-        random.choice(item_pool),
-        random.randint(1, 5),
-        round(random.uniform(10, 999), 2),
-        (start_date + timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
-    ))
+
+c.execute('select max(order_id) from order_tbl')
+max_oid = c.fetchone()[0]
+
+for i in range(1, 12):
+    start_date = datetime(2024, i, 1)
+    for oid in range(1, 11):
+        orders.append((
+            oid + (i-1) * 10 + max_oid,
+            random.randint(1, 10),  # 关联有效user_id
+            random.choice(item_pool),
+            random.randint(1, 5),
+            round(random.uniform(10, 999), 2),
+            (start_date + timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
+        ))
 
 # 插入数据
-c.executemany('INSERT INTO user VALUES (?,?,?,?)', users)
-c.executemany('INSERT INTO "order" VALUES (?,?,?,?,?,?)', orders)
+#c.executemany('INSERT INTO user_tbl VALUES (?,?,?,?)', users)
+c.executemany('INSERT INTO "order_tbl" VALUES (?,?,?,?,?,?)', orders)
 
 # 提交并关闭
 conn.commit()
