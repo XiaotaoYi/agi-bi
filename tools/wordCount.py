@@ -2,7 +2,7 @@ import re
 
 # 假设文件内容已经存储在变量 text 中
 # 1. 加载 txt 文件
-file_path = 'data/wallStreatWeek/WallStreetWeek20250314.txt'  # 替换为你的文件路径
+file_path = 'data/wallStreatWeek/WallStreetWeek20250412.txt'  # 替换为你的文件路径
 with open(file_path, 'r', encoding='utf-8') as file:
     text = file.read()
 

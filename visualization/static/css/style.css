@@ -100,7 +100,7 @@ body {
 
 .message-content {
     max-width: 90%;
-    padding: 0px 0px;
+    padding: 10px;
     border-radius: 10px;
     overflow: hidden;
     display: flex;
