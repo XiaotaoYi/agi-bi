@@ -4,7 +4,7 @@ import json
 from typing import Optional
 import re
 import os
-from databases.faiss.sql_util import SQLVectorDB
+from retrieval.long_memory.sql_util import SQLVectorDB
 
 class SQLProcessor:
     def __init__(self, db_path: str, ollama_endpoint: str = "http://localhost:11434/api/generate"):
