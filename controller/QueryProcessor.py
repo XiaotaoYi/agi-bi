@@ -117,7 +117,7 @@ class SQLProcessor:
             print(cleaned_text)
 
             # 第二步：验证SQL语法并执行
-            from sqlite_verify import parse_sql
+            from multi_agent.executor.sql_validator.sqlite_verify import parse_sql
             
             # 验证SQL语法是否正确
             if parse_sql(cleaned_text):

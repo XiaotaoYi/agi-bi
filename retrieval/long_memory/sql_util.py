@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer
 import os
 
 class SQLVectorDB:
-    def __init__(self, index_path='faiss_index.bin'):
+    def __init__(self, index_path='retrieval/long_memory/faiss_index.bin'):
         self.model = SentenceTransformer('BAAI/bge-small-zh-v1.5')
         self.index_path = index_path
         self.examples = []

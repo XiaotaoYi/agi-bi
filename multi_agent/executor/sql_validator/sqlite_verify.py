@@ -9,7 +9,7 @@ def parse_sql(sql: str) -> bool:
     """
     try:
         # Create an in-memory database for validation
-        conn = sqlite3.connect('order.db', check_same_thread=False)
+        conn = sqlite3.connect('tools/sql_executor/order.db', check_same_thread=False)
         cursor = conn.cursor()
         cursor.execute(f"EXPLAIN {sql}")
         return True

@@ -1,14 +1,14 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from QueryProcessor import SQLProcessor
+from controller.QueryProcessor import SQLProcessor
 import os
 import re
 
-app = Flask(__name__, static_folder='static', template_folder='templates')
+app = Flask(__name__, static_folder='visualization/static', template_folder='visualization/templates')
 CORS(app)  # 启用跨域请求支持
 
 # 初始化数据库处理器
-db_path = "order.db"  # 使用您的数据库路径
+db_path = "tools/sql_executor/order.db"  # 使用您的数据库路径
 processor = SQLProcessor(db_path)
 
 @app.route('/')
