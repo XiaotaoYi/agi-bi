@@ -1,0 +1,170 @@
+{
+    "name": "users",
+    "columns": [
+        {
+            "name": "user_id",
+            "type": "INTEGER",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            // semantic properties, such as description, display name, and alias, could be added here.
+            "properties": {
+            "description": "A unique identifier for each user in the data model.",
+            "displayName": "UserId"
+            }
+        },
+        {
+            // semantic naming
+            "name": "gender",
+            "type": "VARCHAR",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            "properties": {
+            "description": "user's gender.",
+            "displayName": "Gender"
+            }
+        },
+        {
+            "name": "age",
+            "type": "INTEGER",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            // semantic properties, such as description, display name, and alias, could be added here.
+            "properties": {
+            "description": "user's age.",
+            "displayName": "Age"
+            }
+        },
+        {
+            // semantic naming
+            "name": "customer_level",
+            "type": "INTEGER",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            "properties": {
+            "description": "level of user account.",
+            "displayName": "CustomerLevel"
+            }
+        }
+    ],
+    "refSql": "select * from order.user_tbl",
+    "cached": 0,
+    "refreshTime": null,
+    // semantic properties, such as description, display name, and alias, could be added here.
+    "properties": {
+        "schema": "order",
+        "catalog": "memory",
+        "description": "A table of users who have made purchases",
+        "displayName": "Users"
+    },
+    "primaryKey": "user_id"
+},
+{
+    "name": "orders",
+    "columns": [
+        {
+            "name": "order_id",
+            "type": "INTEGER",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            // semantic properties, such as description, display name, and alias, could be added here.
+            "properties": {
+            "description": "A unique identifier for each order purchased in the data model.",
+            "displayName": "OrderId"
+            }
+        },
+        {
+            // semantic naming
+            "name": "customer_user_id",
+            "type": "INTEGER",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            "properties": {
+            "description": "Referenced user id of user_tbl table",
+            "displayName": "CustomerUserId"
+            }
+        },
+        {
+            "name": "item_name",
+            "type": "VARCHAR",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            // semantic properties, such as description, display name, and alias, could be added here.
+            "properties": {
+            "description": "Purchased item name.",
+            "displayName": "ItemName"
+            }
+        },
+        {
+            // semantic naming
+            "name": "item_number",
+            "type": "INTEGER",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            "properties": {
+            "description": "quantity of items.",
+            "displayName": "ItemNumber"
+            }
+        },
+        {
+            "name": "price",
+            "type": "DOUBLE",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "",
+            // semantic properties, such as description, display name, and alias, could be added here.
+            "properties": {
+            "description": "Item's price.",
+            "displayName": "Price"
+            }
+        },
+        {
+            // semantic naming
+            "name": "date",
+            "type": "DATE",
+            "isCalculated": 0,
+            "notNull": 0,
+            "expression": "Id",
+            "properties": {
+            "description": "Purchase date.",
+            "displayName": "Date"
+            }
+        },
+        {
+            // semantic naming
+            "name": "sale_amount",
+            "type": "DOUBLE",
+            "isCalculated": 1,
+            "notNull": 0,
+            "expression": "sum(item_number * price)",
+            "properties": {
+            "description": "Gross Merchandise Volume, gross transaction amount of a specified time range.",
+            "displayName": "GMV"
+            }
+        },
+    ],
+    "refSql": "select * from order.order_tbl",
+    "cached": 0,
+    "refreshTime": null,
+    // semantic properties, such as description, display name, and alias, could be added here.
+    "properties": {
+        "schema": "order",
+        "catalog": "memory",
+        "description": "A table of orders, in which user made transactions",
+        "displayName": "Orders"
+    },
+    "primaryKey": "Id"
+},
+{
+    "name" : "UserOrders",
+    "models" : [ "users", "orders" ],
+    "joinType" : "ONE_TO_MANY",  // it's a one-to-many architecture
+    "condition" : "users.user_id = orders.customer_user_id"
+}
