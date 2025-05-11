@@ -154,5 +154,5 @@ class SQLProcessor:
 # 使用示例
 if __name__ == "__main__":
     processor = SQLProcessor("order.db")
-    user_query = "请帮我查询8月份消费金额最高的前三位用户"
-    processor.process(user_query)
+    user_query = "search Gross Merchandise Volume at the year 2024 by month"
+    print(processor.process(user_query))

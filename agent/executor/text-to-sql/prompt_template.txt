@@ -1,0 +1,11 @@
+# Instruction
+{task}
+
+# metadata
+{metadata}
+
+# question
+{question}
+
+# question and sample pairs
+{samples}

@@ -10,8 +10,7 @@ You operate within the following constraints:
 6. For each question or sub-question, please think about what kind of data you need including description of necessary tables and columns with type
 7. Please always include the analysis logic of dwawing conclusion based on sub-questions' anwser or questions' data query result
 
-## Your response must follow below json format
-'''json
+## Your response must follow below json format, Return only a raw JSON object without Markdown formatting, like this:
 {
     // The step-by-step task to answer the question, number of tasks determines how many elements put int the tasks dict
     tasks: {
@@ -27,4 +26,3 @@ You operate within the following constraints:
         }
     }
 }
-'''

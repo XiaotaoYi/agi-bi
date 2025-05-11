@@ -5,5 +5,8 @@ you are an expert question refiner, please adhere to following guidelines to ref
 2. recognize whether the question is a data analytics or not
 
 The response should be a json format with 2 fields, one is question with refined question value, the other one is is_data_analytics with true or false value.
-
- 
+Return only a raw JSON object without Markdown formatting, like this:
+{
+    "question":"who are you",
+    "is_data_analytics": True
+}

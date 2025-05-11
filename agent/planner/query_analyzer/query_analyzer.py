@@ -1,10 +1,11 @@
-# The main goal of query analyzer is to enrich questions to be more understandable by LLM to ensure it can make accurate and comprehensive plan.
-
 import json
 import sqlite3
 from pathlib import Path
 from typing import List, Dict, Any
 import os
+from langchain_community.llms import Tongyi
+from langchain.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 class QueryAnalyzer:
     def __init__(self, db_path: str = "semantic/glossary/glossary.db"):
@@ -63,14 +64,8 @@ class QueryAnalyzer:
         
         return prompt
     
-    def process(self, question: str) -> str:
-        
-
-        from langchain.prompts import PromptTemplate
-        from langchain.chains import LLMChain
-        from langchain_openai import ChatOpenAI
-
-        DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "your_deepseek_api_key")
+    def process(self, question: str) -> dict:
+        llm = Tongyi(model_name="qwen-turbo", dashscope_api_key=os.environ["DASHSCOPE_API_KEY"], stream=True, verbose=True)
 
         # 定义模板
         prompt_template = PromptTemplate(
@@ -78,17 +73,16 @@ class QueryAnalyzer:
             template=self.prompt_template
         )
 
-        # 创建链
-        chain = LLMChain(
-            llm=ChatOpenAI(temperature=0.7, openai_api_base='https://api.deepseek.com/v1', openai_api_key=DEEPSEEK_API_KEY, model="deepseek-chat"),
-            prompt=prompt_template,
-            verbose=True
-        )
+        # Create the chain
+        chain = prompt_template | llm | StrOutputParser()
 
         # 执行链
         abbreviations_str = json.dumps(self.get_abbreviations(), indent=2)
         response = chain.invoke({"task": self.task, "abbreviations": abbreviations_str, "question": question})
-        return response["text"]
+
+        analyzer_obj = json.loads(response["text"])
+
+        return analyzer_obj
 
 #queryAnalyzer = QueryAnalyzer()
 #print(queryAnalyzer.process("search gmv at the year 2024 by month"))
