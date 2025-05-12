@@ -13,17 +13,26 @@ class QueryAnalyzer:
         self.prompt_template = self._read_prompt_template()
         self.task = self._read_task()
 
-    def _read_prompt_template(self) -> str:
-        """Read the prompt template from file."""
-        template_path = Path(__file__).parent / "prompt_template.txt"
-        with open(template_path, "r") as f:
-            return f.read().strip()
+    def getPromptTemplateStr(self) -> str:
+        """Read the prompt template from memory."""
+        return '''
+                # Instruction
+                you are an expert question refiner, please adhere to following guidelines to refine question.
 
-    def _read_task(self) -> str:
-        """Read the task instructions from file."""
-        task_path = Path(__file__).parent / "task.txt"
-        with open(task_path, "r") as f:
-            return f.read().strip()
+                ## guidelines
+                1. firstly find abbreviations in the question according to below abbreviations data, then replace abbreviation with fullname field.
+                2. recognize whether the question is a data analytics or not
+
+                The response should be a json format with 2 fields, one is question with refined question value, the other one is is_data_analytics with true or false value.
+                Return only a raw JSON object without Markdown formatting, like this:
+                {
+                    "question":"who are you",
+                    "is_data_analytics": True
+                }
+
+                # question
+                {question}
+               '''
 
     def get_abbreviations(self) -> List[Dict[str, str]]:
         """Read abbreviations from glossary database.
@@ -69,16 +78,16 @@ class QueryAnalyzer:
 
         # 定义模板
         prompt_template = PromptTemplate(
-            input_variables=["task", "abbreviations", "question"],
-            template=self.prompt_template
+            input_variables=["question"],
+            template=self.getPromptTemplateStr
         )
 
         # Create the chain
         chain = prompt_template | llm | StrOutputParser()
 
         # 执行链
-        abbreviations_str = json.dumps(self.get_abbreviations(), indent=2)
-        response = chain.invoke({"task": self.task, "abbreviations": abbreviations_str, "question": question})
+        #abbreviations_str = json.dumps(self.get_abbreviations(), indent=2)
+        response = chain.invoke({"question": question})
 
         analyzer_obj = json.loads(response["text"])
 

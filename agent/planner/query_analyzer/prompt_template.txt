@@ -1,8 +1,0 @@
-# Instruction
-{task}
-
-# Abbreviations
-{abbreviations}
-
-# question
-{question}
