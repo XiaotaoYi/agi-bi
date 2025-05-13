@@ -20,6 +20,7 @@ def insertData():
     # 生成1条glossary数据
     records = []
     records.append((1,'GMV','Gross Merchandise Volume','gross transaction amount of a specified time range'))
+    records.append((2,'tpv','total payment volume','total payment volume'))
 
     # 插入数据
     c.executemany('INSERT INTO "glossary_tbl" VALUES (?,?,?,?)', records)
