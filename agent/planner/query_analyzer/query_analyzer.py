@@ -92,5 +92,5 @@ class QueryAnalyzer:
 
         return analyzer_obj
 
-queryAnalyzer = QueryAnalyzer()
-print(queryAnalyzer.process("search tpv at the year 2024 by month"))
+#queryAnalyzer = QueryAnalyzer()
+#print(queryAnalyzer.process("search tpv at the year 2024 by month"))
