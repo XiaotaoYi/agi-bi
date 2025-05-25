@@ -1,9 +1,0 @@
-# Instruction
-{task}
-
-# knowledge
-you must pay close attention to the followng knowledge:
-{knowledge}
-
-# question
-{question}

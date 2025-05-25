@@ -152,7 +152,7 @@ class SQLProcessor:
             self.conn.close()
 
 # 使用示例
-if __name__ == "__main__":
-    processor = SQLProcessor("order.db")
-    user_query = "search Gross Merchandise Volume at the year 2024 by month"
-    print(processor.process(user_query))
+#if __name__ == "__main__":
+#    processor = SQLProcessor("order.db")
+#    user_query = "search Gross Merchandise Volume at the year 2024 by month"
+#    print(processor.process(user_query))

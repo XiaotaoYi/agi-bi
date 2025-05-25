@@ -2,8 +2,8 @@
 class Mdl_Search:
     """Get matched metric metadata, like metric definition and referenced datasource with table schema"""
     def __init__(self):
-        self.name = "metric metadata search"
-        self.description = "Get matched metric metadata, like metric definition and referenced datasource with table schema."
+        self.name = "table schema"
+        self.description = "Get table and column related schema"
 
     def run(self, question: str) -> list[str]:
         ret =[]

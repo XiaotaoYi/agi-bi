@@ -1,39 +1,32 @@
-from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
-from controller.QueryProcessor import SQLProcessor
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
+import uvicorn
 import os
-import re
+from fastapi.staticfiles import StaticFiles
+from controller.process_query_api import router as process_query_router
 
-app = Flask(__name__, static_folder='visualization/static', template_folder='visualization/templates')
-CORS(app)  # 启用跨域请求支持
+app = FastAPI()
 
-# 初始化数据库处理器
-db_path = "tools/sql_executor/order.db"  # 使用您的数据库路径
-processor = SQLProcessor(db_path)
+# Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.route('/')
-def index():
-    """渲染主页"""
-    return render_template('index.html')
+templates = Jinja2Templates(directory="visualization/templates")
+app.mount("/static", StaticFiles(directory="visualization/static"), name="static")
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    """Render the homepage"""
+    return templates.TemplateResponse("index.html", {"request": request})
 
-@app.route('/api/query', methods=['POST'])
-def process_query():
-    """处理用户查询的API端点"""
-    data = request.json
-    query = data.get('query', '')
-    
-    if not query:
-        return jsonify({'error': '查询不能为空'}), 400
-    
-    try:
-        # 处理查询
-        results = processor.process(query)
-        
-        return jsonify({
-            'result': results
-        })
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+# Import and include the process_query router
+app.include_router(process_query_router)
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080) 
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=8081, reload=True) 

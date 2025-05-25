@@ -27,11 +27,11 @@ class Scheduler:
             Question: the question to answer
             Thought: You should always think using below idea and take next action.
                     1. First check if the question is data analytics related, if not, just reject the question and no other steps needed
-                    2. Then check if the question is clear enough to start plan, if not, just reject the question and no other steps needed
+                    2. give action(call table schema tool) to get table schema
                     3. Use the last 30 days as the default data range if no specific range is provided in the question
                     4. One data analytics question might need be divided into multiple sub-questions and draw conclusion based on sub question's answer
                     5. If the question is straightforward, you don't need divided it into sub-questions
-                    6. For each question or sub-question, please think about what kind of data you need including description of necessary tables and columns with type
+                    6. For each question or sub-question, please think about description of necessary tables and columns with type.
                     7. Please always include the analysis logic of dwawing conclusion based on sub-questions' anwser or questions' data query result
             Action: tool name which must be one from [{tool_names}]
             Action Input: tool input
@@ -43,19 +43,19 @@ class Scheduler:
             Tools: {tools}
             Tool names: {tool_names}
 
-            The final answer's output field should contain a json format,  Return only a raw JSON object with no markdown format for the output value like this:
+            The final answer's output field should contain a raw json format without markdown format, like this:
             {{
                 // The step-by-step task to answer the question, number of tasks determines how many elements put int the tasks dict
-                tasks: [
+                "tasks": [
                     {{
                         // index refer to task requence
-                        index: number,
+                        "index": number,
                         // task type must be one of the following: clarify_question, reject_no_analytics_question,query_table,summarize_result
-                        task_type: string,
+                        "task_type": string,
                         // task detail refers to what to do for this task, for task_type as clarify_question, task_detail must contain what need to be clarified;
-                        // for task_type as query_table, task_detail must contain description of necessary tables and columns with type together with what to get from querying the tables;
+                        // for task_type as query_table, task_detail must contain description of necessary tables and columns with type together;
                         // for task_type as summarize_result, task_detail must contain the analysis logic based on query_table task's result
-                        task_detail: string
+                        "task_detail": string
                     }}
                 ]
             }}
@@ -96,4 +96,4 @@ class Scheduler:
         return scheduler_obj
 
 scheduler = Scheduler()
-print(scheduler.process("search tpv(total payment volume) at the year 2024 by month"))
+print(scheduler.process("search gmv at the year 2023 by month"))

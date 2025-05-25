@@ -90,20 +90,20 @@ class SQLVectorDB:
         return results
 
 # Example usage
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # Initialize vector database
-    db = SQLVectorDB()
+#    db = SQLVectorDB()
     
     # Import data
-    db.import_data('faiss_index.bin.examples')
+#    db.import_data('faiss_index.bin.examples')
     
     # Example search
-    query = "查询2025年2月份的销售情况"
-    results = db.search(query)
+ #   query = "查询2025年2月份的销售情况"
+#    results = db.search(query)
     
-    print(f"Query: {query}")
-    print("\nSimilar examples:")
-    for result in results:
-        print(f"\nSimilarity: {result['similarity']:.4f}")
-        print(f"Example query: {result['query']}")
-        print(f"SQL: {result['sql']}") 
+#    print(f"Query: {query}")
+#    print("\nSimilar examples:")
+#    for result in results:
+ #       print(f"\nSimilarity: {result['similarity']:.4f}")
+  #      print(f"Example query: {result['query']}")
+#        print(f"SQL: {result['sql']}") 
